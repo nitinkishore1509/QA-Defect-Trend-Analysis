@@ -1,0 +1,63 @@
+```DAX
+-- 📊 Core DAX Measures for Defect Trend Analysis Dashboard
+
+-- 1. Total Defects
+Total Defects = COUNTROWS('Processed_QA_Defects')
+
+-- 2. Open Defects
+Open Defects = CALCULATE(
+    COUNTROWS('Processed_QA_Defects'),
+    'Processed_QA_Defects'[Status] = "Open"
+)
+
+-- 3. Closed Defects
+Closed Defects = CALCULATE(
+    COUNTROWS('Processed_QA_Defects'),
+    'Processed_QA_Defects'[Status] = "Closed"
+)
+
+-- 4. Closure Rate %
+Closure Rate % = DIVIDE([Closed Defects], [Total Defects], 0)
+
+-- 5. Avg Resolution Time (days)
+Avg Resolution Time = AVERAGE('Processed_QA_Defects'[Resolution_Time])
+
+-- 6. Critical Defects
+Critical Defects = CALCULATE(
+    COUNTROWS('Processed_QA_Defects'),
+    'Processed_QA_Defects'[Severity] = "Critical"
+)
+
+-- 7. High Severity Defects
+High Severity Defects = CALCULATE(
+    COUNTROWS('Processed_QA_Defects'),
+    'Processed_QA_Defects'[Severity] = "High"
+)
+
+-- 8. Medium Severity Defects
+Medium Severity Defects = CALCULATE(
+    COUNTROWS('Processed_QA_Defects'),
+    'Processed_QA_Defects'[Severity] = "Medium"
+)
+
+-- 9. Low Severity Defects
+Low Severity Defects = CALCULATE(
+    COUNTROWS('Processed_QA_Defects'),
+    'Processed_QA_Defects'[Severity] = "Low"
+)
+
+-- 10. Defects Created (per month)
+Defects Created = COUNTROWS('Processed_QA_Defects')
+
+-- 11. Defects Closed (per month)
+Defects Closed = CALCULATE(
+    COUNTROWS('Processed_QA_Defects'),
+    NOT(ISBLANK('Processed_QA_Defects'[Closed_Date]))
+)
+
+-- 12. Backlog (Cumulative Open Defects)
+Backlog = [Total Defects] - [Closed Defects]
+
+
+)
+```
